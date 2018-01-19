@@ -1,0 +1,10 @@
+--recurse=yes
+--tag-relative=yes
+--exclude=.git
+
+--regex-ruby=/^[ \t]*scope[ \t]*:([a-zA-Z0-9_]+)/\1/
+--regex-ruby=/^[ \t]*has_many[ \t]*:([a-zA-Z0-9_]+)/\1/
+--regex-ruby=/^[ \t]*has_one[ \t]*:([a-zA-Z0-9_]+)/\1/
+--regex-ruby=/^[ \t]*belongs_to[ \t]*:([a-zA-Z0-9_]+)/\1/
+
+--languages=-javascript,sql
