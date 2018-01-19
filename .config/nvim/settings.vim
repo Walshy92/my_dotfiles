@@ -10,6 +10,7 @@ set backspace=2   " Backspace deletes like most programs in insert mode
 set mouse=a       " Enable mouse mode
 set clipboard=unnamed
 set encoding=utf-8
+set wrap
 
 " Open new split panes to right and bottom, which feels more natural
 set splitbelow

@@ -110,10 +110,10 @@ map  <Leader>w <Plug>(easymotion-bd-w)
 nmap <Leader>w <Plug>(easymotion-overwin-w)
 
 " RSpec.vim mappings
-map <Leader>t :GoldenRatioToggle<CR>:call RunCurrentSpecFile()<CR>:GoldenRatioToggle<CR>
-map <Leader>s :GoldenRatioToggle<CR>:call RunNearestSpec()<CR>:GoldenRatioToggle<CR>
-map <Leader>l :GoldenRatioToggle<CR>:call RunLastSpec()<CR>:GoldenRatioToggle<CR>
-map <Leader>a :GoldenRatioToggle<CR>:call RunAllSpecs()<CR>:GoldenRatioToggle<CR>
+map <Leader>t :GoldenRatioToggle<CR>:call RunCurrentSpecFile()<CR>:GoldenRatioToggle<CR>:set wrap<CR>
+map <Leader>s :GoldenRatioToggle<CR>:call RunNearestSpec()<CR>:GoldenRatioToggle<CR>:set wrap<CR>
+map <Leader>l :GoldenRatioToggle<CR>:call RunLastSpec()<CR>:GoldenRatioToggle<CR>:set wrap<CR>
+map <Leader>a :GoldenRatioToggle<CR>:call RunAllSpecs()<CR>:GoldenRatioToggle<CR>:set wrap<CR>
 
 " Rails.vim mappings
 nmap <Leader>ae :AE<CR>

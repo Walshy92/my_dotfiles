@@ -6,5 +6,7 @@
 --regex-ruby=/^[ \t]*has_many[ \t]*:([a-zA-Z0-9_]+)/\1/
 --regex-ruby=/^[ \t]*has_one[ \t]*:([a-zA-Z0-9_]+)/\1/
 --regex-ruby=/^[ \t]*belongs_to[ \t]*:([a-zA-Z0-9_]+)/\1/
+--regex-ruby=/^[ \t]*factory[ \t]*:([a-zA-Z0-9_]+)/\1/
+--regex-ruby=/^[ \t]*enum[ \t]*([a-zA-Z0-9_]+):/\1/
 
 --languages=-javascript,sql
