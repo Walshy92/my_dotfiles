@@ -1,7 +1,9 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =5
-let g:netrw_dirhist_1='/Users/harry/learning/rack/my_framework/views'
-let g:netrw_dirhist_2='/Users/harry/learning/rack/my_framework'
-let g:netrw_dirhist_3='/Users/harry/learning/rack/my_framework/controllers'
-let g:netrw_dirhist_4='/Users/harry/learning/rack/my_framework'
-let g:netrw_dirhist_5='/Users/harry/learning/rack/my_framework/framework'
+let g:netrw_dirhist_cnt =7
+let g:netrw_dirhist_1='/Users/harry/source/tickets4/app/assets/stylesheets/libraries'
+let g:netrw_dirhist_2='/Users/harry/source/tickets4/app/assets/stylesheets'
+let g:netrw_dirhist_3='/Users/harry/source/tickets4/app/assets/stylesheets/libraries'
+let g:netrw_dirhist_4='/Users/harry/source/tickets4/app/models'
+let g:netrw_dirhist_5='/Users/harry/source/tickets4/app/views/ticket_message_notification_mailer'
+let g:netrw_dirhist_6='/Users/harry/.my-dotfiles'
+let g:netrw_dirhist_7='/Users/harry/.config/nvim'

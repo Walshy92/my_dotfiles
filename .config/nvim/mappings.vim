@@ -50,9 +50,11 @@ inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 let g:airline_theme='solarized'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_buffers = 0
+let g:airline#extensions#tabline#show_splits = 0
+let g:airline#extensions#tabline#close_symbol = '×'
 let g:airline_section_z = '%{strftime("%a %d %b, %H:%M:%S")}'
 function! UpdateTime(timer)
-  call airline#update_statusline()
+ call airline#update_statusline()
 endfunction
 let g:airline#extensions#clock#timer = timer_start(1000, 'UpdateTime', {'repeat':-1})
 
