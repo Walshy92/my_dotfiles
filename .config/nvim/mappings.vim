@@ -56,7 +56,7 @@ let g:airline_section_z = '%{strftime("%a %d %b, %H:%M:%S")}'
 function! UpdateTime(timer)
  call airline#update_statusline()
 endfunction
-let g:airline#extensions#clock#timer = timer_start(1000, 'UpdateTime', {'repeat':-1})
+" let g:airline#extensions#clock#timer = timer_start(1000, 'UpdateTime', {'repeat':-1})
 
 "==============================================================================
 " Easy access to start of the line

@@ -4,19 +4,15 @@ if &compatible
 endif
 
 " Required:
-set runtimepath+=/Users/harry/.config/nvim/repos/github.com/Shougo/dein.vim
+set runtimepath+=/Users/harry/.cache/dein/repos/github.com/Shougo/dein.vim
 
 " Required:
-if dein#load_state('/Users/harry/.config/nvim')
-  call dein#begin('/Users/harry/.config/nvim')
+if dein#load_state('/Users/harry/.cache/dein')
+  call dein#begin('/Users/harry/.cache/dein')
 
   " Let dein manage dein
   " Required:
-  call dein#add('/Users/harry/.config/nvim/repos/github.com/Shougo/dein.vim')
-
-  " Let dein manage dein
-  " Required:
-  call dein#add('Shougo/dein.vim')
+  call dein#add('/Users/harry/.cache/dein/repos/github.com/Shougo/dein.vim')
 
   " Add or remove your plugins here:
   " Esstentials
@@ -34,12 +30,14 @@ if dein#load_state('/Users/harry/.config/nvim')
   call dein#add('neomake/neomake')
   call dein#add('yssl/QFEnter')
 
+  "A collection of language packs for Vim.
+  call dein#add('sheerun/vim-polyglot')
+
   " Searching vim
   call dein#add('rking/ag.vim')
   " Git
   call dein#add('tpope/vim-fugitive')
   " Ruby
-  call dein#add('vim-ruby/vim-ruby')
   call dein#add('tpope/vim-rails')
   call dein#add('kana/vim-textobj-user')
   call dein#add('nelstrom/vim-textobj-rubyblock')
@@ -47,14 +45,8 @@ if dein#load_state('/Users/harry/.config/nvim')
   " RSpec
   call dein#add('thoughtbot/vim-rspec')
   call dein#add('jgdavey/tslime.vim')
-  " Coffeescript
-  call dein#add('kchmck/vim-coffee-script')
-  " Javascript
-  call dein#add('pangloss/vim-javascript')
-  " Elixir
-  call dein#add('elixir-lang/vim-elixir')
-  " Elm
-  call dein#add('lambdatoast/elm.vim')
+  " Elxir autocomplete
+  call dein#add('slashmili/alchemist.vim')
   " Fuzzy Searching
   call dein#add('ctrlpvim/ctrlp.vim')
   " Nice status bar
