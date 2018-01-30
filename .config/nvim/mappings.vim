@@ -10,6 +10,9 @@ runtime macros/matchit.vim
 " Escape from insert mode with jj
 inoremap jj <esc>:w<CR>
 
+" Jsx on all js files
+let g:jsx_ext_required = 0
+
 " deoplete.nvim
 " =============================================================================
 if has('nvim')

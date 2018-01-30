@@ -4,15 +4,15 @@ if &compatible
 endif
 
 " Required:
-set runtimepath+=/Users/harry/.cache/dein/repos/github.com/Shougo/dein.vim
+set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
 
 " Required:
-if dein#load_state('/Users/harry/.cache/dein')
-  call dein#begin('/Users/harry/.cache/dein')
+if dein#load_state(expand('~/.cache/dein'))
+  call dein#begin(expand('~/.cache/dein'))
 
   " Let dein manage dein
   " Required:
-  call dein#add('/Users/harry/.cache/dein/repos/github.com/Shougo/dein.vim')
+  call dein#add(expand('~/.cache/dein/repos/github.com/Shougo/dein.vim'))
 
   " Add or remove your plugins here:
   " Esstentials
@@ -47,6 +47,10 @@ if dein#load_state('/Users/harry/.cache/dein')
   call dein#add('jgdavey/tslime.vim')
   " Elxir autocomplete
   call dein#add('slashmili/alchemist.vim')
+  " React
+  call dein#add('mxw/vim-jsx')
+  " Quick HTML
+  call dein#add('mattn/emmet-vim')
   " Fuzzy Searching
   call dein#add('ctrlpvim/ctrlp.vim')
   " Nice status bar
