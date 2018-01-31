@@ -216,7 +216,7 @@ highlight! link deniteMatchedRange Normal
 
 " denite file search (c-p uses gitignore, c-o looks at everything)
 map <C-P> :DeniteProjectDir -buffer-name=git file_rec/git<CR>
-map <C-O> :DeniteProjectDir -buffer-name=files file_rec<CR>
+map <C-A> :DeniteProjectDir -buffer-name=files file_rec<CR>
 
 " -u flag to unrestrict (see ag docs)
 call denite#custom#var('file_rec', 'command',
@@ -245,21 +245,6 @@ call denite#custom#var('grep', 'pattern_opt', [])
 call denite#custom#var('grep', 'separator', ['--'])
 call denite#custom#var('grep', 'final_opts', [])
 
-" Tab completion
-" will insert tab at beginning of line,
-" will use completion if not at beginning
-" set wildmode=list:longest,list:full
-" function! InsertTabWrapper()
-"     let col = col('.') - 1
-"     if !col || getline('.')[col - 1] !~ '\k'
-"         return "\<tab>"
-"     else
-"         return "\<c-p>"
-"     endif
-" endfunction
-" inoremap <Tab> <c-r>=InsertTabWrapper()<cr>
-" inoremap <S-Tab> <c-n>
-
 " Veritcal line config
 let g:indentLine_color_term = 239
 let g:indentLine_char = '|'
@@ -267,8 +252,6 @@ let g:indentLine_char = '|'
 " Run specs in iTerm2
 let g:rspec_runner = "os_x_iterm2"
 
-" Tmux run rspec
-" let g:rspec_command = 'call Send_to_Tmux("spring rspec {spec}\n")'
 let g:rspec_command = "Dispatch bin/rspec {spec}"
 
 " Neomake Config
