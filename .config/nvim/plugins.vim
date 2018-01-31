@@ -33,8 +33,6 @@ if dein#load_state(expand('~/.cache/dein'))
   "A collection of language packs for Vim.
   call dein#add('sheerun/vim-polyglot')
 
-  " Searching vim
-  call dein#add('rking/ag.vim')
   " Git
   call dein#add('tpope/vim-fugitive')
   " Ruby
@@ -52,7 +50,7 @@ if dein#load_state(expand('~/.cache/dein'))
   " Quick HTML
   call dein#add('mattn/emmet-vim')
   " Fuzzy Searching
-  call dein#add('ctrlpvim/ctrlp.vim')
+  call dein#add('Shougo/denite.nvim')
   " Nice status bar
   call dein#add('bling/vim-airline')
   call dein#add('vim-airline/vim-airline-themes')

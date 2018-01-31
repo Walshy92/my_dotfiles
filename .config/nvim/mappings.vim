@@ -209,39 +209,56 @@ nnoremap <Leader>gt :GoToGitlab<space>
 " Addes line numbers to :Explore
 let g:netrw_bufsettings = "noma nomod nu nobl nowrap ro rnu"
 
-" Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
-if executable('ag')
-  " Use Ag over Grep
-  set grepprg=ag\ --nogroup\ --nocolor
+set grepprg=ag\ --nogroup\ --nocolor
 
-  " Fuzzy searching using ctrl p and silver searcher
-  let g:ctrlp_user_command = 'ag %s -l --hidden --nocolor -g ""'
-  let g:ctrlp_use_caching = 0
+highlight! link deniteMatchedChar Directory
+highlight! link deniteMatchedRange Normal
 
-  if !exists(":Ag")
-    " bind K to grep word under cursor
-    nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
-    " bind \ (backward slash) to grep shortcut
-    command -nargs=+ -complete=file -bar Ag silent! grep!<args>|cwindow|redraw!
-    nnoremap \ :Ag<SPACE>
-  endif
+" denite file search (c-p uses gitignore, c-o looks at everything)
+map <C-P> :DeniteProjectDir -buffer-name=git file_rec/git<CR>
+map <C-O> :DeniteProjectDir -buffer-name=files file_rec<CR>
 
-endif
+" -u flag to unrestrict (see ag docs)
+call denite#custom#var('file_rec', 'command',
+\ ['ag', '--follow', '--nocolor', '--nogroup', '-u', '-g', ''])
+
+call denite#custom#alias('source', 'file_rec/git', 'file_rec')
+call denite#custom#var('file_rec/git', 'command',
+\ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
+
+call denite#custom#map('insert', '<Down>', '<denite:move_to_next_line>', 'noremap')
+call denite#custom#map('insert', '<Up>', '<denite:move_to_previous_line>', 'noremap')
+
+" denite content search
+nnoremap \ :DeniteProjectDir -buffer-name=grep -default-action=quickfix grep:::!<CR>
+nnoremap K :DeniteProjectDir -buffer-name=grep -default-action=quickfix grep:::`expand('<cword>')`<CR>
+
+call denite#custom#source(
+\ 'grep', 'matchers', ['matcher_regexp'])
+
+" use ag for content search
+call denite#custom#var('grep', 'command', ['ag'])
+call denite#custom#var('grep', 'default_opts',
+    \ ['-i', '--vimgrep'])
+call denite#custom#var('grep', 'recursive_opts', [])
+call denite#custom#var('grep', 'pattern_opt', [])
+call denite#custom#var('grep', 'separator', ['--'])
+call denite#custom#var('grep', 'final_opts', [])
 
 " Tab completion
 " will insert tab at beginning of line,
 " will use completion if not at beginning
-set wildmode=list:longest,list:full
-function! InsertTabWrapper()
-    let col = col('.') - 1
-    if !col || getline('.')[col - 1] !~ '\k'
-        return "\<tab>"
-    else
-        return "\<c-p>"
-    endif
-endfunction
-inoremap <Tab> <c-r>=InsertTabWrapper()<cr>
-inoremap <S-Tab> <c-n>
+" set wildmode=list:longest,list:full
+" function! InsertTabWrapper()
+"     let col = col('.') - 1
+"     if !col || getline('.')[col - 1] !~ '\k'
+"         return "\<tab>"
+"     else
+"         return "\<c-p>"
+"     endif
+" endfunction
+" inoremap <Tab> <c-r>=InsertTabWrapper()<cr>
+" inoremap <S-Tab> <c-n>
 
 " Veritcal line config
 let g:indentLine_color_term = 239
