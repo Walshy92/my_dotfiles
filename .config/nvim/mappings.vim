@@ -231,8 +231,8 @@ call denite#custom#map('insert', '<Down>', '<denite:move_to_next_line>', 'norema
 call denite#custom#map('insert', '<Up>', '<denite:move_to_previous_line>', 'noremap')
 
 " denite content search
-nnoremap \ :DeniteProjectDir -buffer-name=grep -default-action=quickfix grep:::!<CR>
-nnoremap K :DeniteProjectDir -buffer-name=grep -default-action=quickfix grep:::`expand('<cword>')`<CR>
+nnoremap \ :DeniteProjectDir -buffer-name=grep grep:::!<CR>
+nnoremap K :DeniteProjectDir -buffer-name=grep grep:::`expand('<cword>')`<CR>
 
 call denite#custom#source(
 \ 'grep', 'matchers', ['matcher_regexp'])
