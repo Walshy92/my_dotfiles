@@ -114,10 +114,10 @@ map  <Leader>w <Plug>(easymotion-bd-w)
 nmap <Leader>w <Plug>(easymotion-overwin-w)
 
 " RSpec.vim mappings
-map <Leader>t :GoldenRatioToggle<CR>:call RunCurrentSpecFile()<CR>:GoldenRatioToggle<CR>:set wrap<CR>
-map <Leader>s :GoldenRatioToggle<CR>:call RunNearestSpec()<CR>:GoldenRatioToggle<CR>:set wrap<CR>
-map <Leader>l :GoldenRatioToggle<CR>:call RunLastSpec()<CR>:GoldenRatioToggle<CR>:set wrap<CR>
-map <Leader>a :GoldenRatioToggle<CR>:call RunAllSpecs()<CR>:GoldenRatioToggle<CR>:set wrap<CR>
+map <Leader>t :call RunCurrentSpecFile()<CR>:set wrap<CR>
+map <Leader>s :call RunNearestSpec()<CR>:set wrap<CR>
+map <Leader>l :call RunLastSpec()<CR>:set wrap<CR>
+map <Leader>a :call RunAllSpecs()<CR>:set wrap<CR>
 
 " Rails.vim mappings
 nmap <Leader>ae :AE<CR>
@@ -165,8 +165,6 @@ tnoremap <C-h> <C-\><C-n><C-w>h
 tnoremap <C-j> <C-\><C-n><C-w>j
 tnoremap <C-k> <C-\><C-n><C-w>k
 tnoremap <C-l> <C-\><C-n><C-w>l
-
-nmap <leader>gr :GoldenRatioResize<CR>
 
 " Eval ruby files
 map <leader>r :!ruby %<cr>
@@ -231,8 +229,8 @@ call denite#custom#map('insert', '<Down>', '<denite:move_to_next_line>', 'norema
 call denite#custom#map('insert', '<Up>', '<denite:move_to_previous_line>', 'noremap')
 
 " denite content search
-nnoremap \ :DeniteProjectDir -buffer-name=grep grep:::!<CR>
-nnoremap K :DeniteProjectDir -buffer-name=grep grep:::`expand('<cword>')`<CR>
+nnoremap \ :DeniteProjectDir -buffer-name=grep -auto-preview grep:::!<CR>
+nnoremap K :DeniteProjectDir -buffer-name=grep -auto-preview grep:::`expand('<cword>')`<CR>
 
 call denite#custom#source(
 \ 'grep', 'matchers', ['matcher_regexp'])
@@ -306,11 +304,6 @@ augroup checktime
     endif
 augroup END
 
-" QFEnter options
-let g:qfenter_vopen_map = ['<C-v>']
-let g:qfenter_hopen_map = ['<C-CR>', '<C-s>', '<C-x>']
-let g:qfenter_topen_map = ['<C-t>']
-
 " Netrw options
 let g:netrw_liststyle = 1
 let g:netrw_banner = 0
@@ -342,6 +335,10 @@ endfunction
 function! InsertMode()
   if expand('%t') !~ 'bin/rspec'
     startinsert
+  elseif expand('%t') =~ 'bin/rspec'
+    if winheight('%') < 20
+      execute 'resize 20'
+    endif
   endif
 endfunction
 
