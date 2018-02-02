@@ -60,7 +60,6 @@ function! UpdateTime(timer)
  call airline#update_statusline()
 endfunction
 let g:airline#extensions#clock#timer = timer_start(1000, 'UpdateTime', {'repeat':-1})
-" Tmux run rspec
 
 "==============================================================================
 " Easy access to start of the line
@@ -187,12 +186,12 @@ nmap <Leader>fp :let @+=@%<CR>
 
 " Function for jumping to webpages from vim
 function! Goto(site)
-    let l:site = a:site
-    if l:site !~? '^https\?:\/\/'
-        let l:site = 'https://' . l:site
-    endif
+  let l:site = a:site
+  if l:site !~? '^https\?:\/\/'
+      let l:site = 'https://' . l:site
+  endif
 
-    call netrw#BrowseX(l:site, netrw#CheckIfRemote())
+  call netrw#BrowseX(l:site, netrw#CheckIfRemote())
 endfun
 
 command! -nargs=1 GoToSite call Goto(<f-args>)
@@ -208,41 +207,46 @@ nnoremap <Leader>gt :GoToGitlab<space>
 " Addes line numbers to :Explore
 let g:netrw_bufsettings = "noma nomod nu nobl nowrap ro rnu"
 
-set grepprg=ag\ --nogroup\ --nocolor
+if executable('rg')
+  set grepprg=rg\ --vimgrep\ --no-heading
+else
+  set grepprg=ag\ --nogroup\ --nocolor
+endif
 
 highlight! link deniteMatchedChar Directory
 highlight! link deniteMatchedRange Normal
+
+if executable('rg')
+  call denite#custom#var('file_rec', 'command',
+    \ ['rg', '--files', '--glob', '!.git'])
+  call denite#custom#var('grep', 'command', ['rg', '--threads', '1'])
+  call denite#custom#var('grep', 'recursive_opts', [])
+  call denite#custom#var('grep', 'final_opts', [])
+  call denite#custom#var('grep', 'separator', ['--'])
+  call denite#custom#var('grep', 'default_opts',
+    \ ['--vimgrep', '--no-heading'])
+else
+ call denite#custom#var('file_rec', 'command',
+    \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
+endif
+
+call denite#custom#alias('source', 'file_rec/git', 'file_rec')
+call denite#custom#var('file_rec/git', 'command',
+  \ ['git', 'ls-files', '-co', '--exclude-standard'])
 
 " denite file search (c-p uses gitignore, c-o looks at everything)
 map <C-P> :DeniteProjectDir -buffer-name=git file_rec/git<CR>
 map <C-A> :DeniteProjectDir -buffer-name=files file_rec<CR>
 
-" -u flag to unrestrict (see ag docs)
-call denite#custom#var('file_rec', 'command',
-\ ['ag', '--follow', '--nocolor', '--nogroup', '-u', '-g', ''])
-
-call denite#custom#alias('source', 'file_rec/git', 'file_rec')
-call denite#custom#var('file_rec/git', 'command',
-\ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
-
 call denite#custom#map('insert', '<Down>', '<denite:move_to_next_line>', 'noremap')
 call denite#custom#map('insert', '<Up>', '<denite:move_to_previous_line>', 'noremap')
 
+call denite#custom#map('normal', '<Down>', '<denite:move_to_next_line>', 'noremap')
+call denite#custom#map('normal', '<Up>', '<denite:move_to_previous_line>', 'noremap')
+
 " denite content search
-nnoremap \ :DeniteProjectDir -buffer-name=grep -auto-preview grep:::!<CR>
-nnoremap K :DeniteProjectDir -buffer-name=grep -auto-preview grep:::`expand('<cword>')`<CR>
-
-call denite#custom#source(
-\ 'grep', 'matchers', ['matcher_regexp'])
-
-" use ag for content search
-call denite#custom#var('grep', 'command', ['ag'])
-call denite#custom#var('grep', 'default_opts',
-    \ ['-i', '--vimgrep'])
-call denite#custom#var('grep', 'recursive_opts', [])
-call denite#custom#var('grep', 'pattern_opt', [])
-call denite#custom#var('grep', 'separator', ['--'])
-call denite#custom#var('grep', 'final_opts', [])
+nnoremap \ :DeniteProjectDir -buffer-name=grep grep:::!<CR>
+nnoremap K :DeniteProjectDir -buffer-name=grep grep:::`expand('<cword>')`<CR>
 
 " Veritcal line config
 let g:indentLine_color_term = 239

@@ -20,13 +20,13 @@ if dein#load_state(expand('~/.cache/dein'))
   call dein#add('Shougo/neosnippet-snippets')
   call dein#add('tpope/vim-surround')
   call dein#add('tpope/vim-repeat')
-  call dein#add('easymotion/vim-easymotion')
   call dein#add('tpope/vim-commentary')
   call dein#add('tpope/vim-endwise')
   call dein#add('tpope/vim-unimpaired')
   call dein#add('tpope/vim-dispatch')
   call dein#add('tpope/vim-sleuth')
   call dein#add('neomake/neomake')
+  call dein#add('easymotion/vim-easymotion')
 
   "A collection of language packs for Vim.
   call dein#add('sheerun/vim-polyglot')
@@ -40,7 +40,6 @@ if dein#load_state(expand('~/.cache/dein'))
   call dein#add('tpope/vim-bundler')
   " RSpec
   call dein#add('thoughtbot/vim-rspec')
-  call dein#add('jgdavey/tslime.vim')
   " Elxir autocomplete
   call dein#add('slashmili/alchemist.vim')
   " React
@@ -54,21 +53,15 @@ if dein#load_state(expand('~/.cache/dein'))
   call dein#add('vim-airline/vim-airline-themes')
   " Vertical lines
   call dein#add('Yggdroot/indentLine')
-  " Improves ITerm2 and tmux intergration
-  call dein#add('sjl/vitality.vim')
-  call dein#add('christoomey/vim-tmux-navigator')
   " Enables Multiple Cursor
   call dein#add('terryma/vim-multiple-cursors')
   " Better whitespace handling
   call dein#add('ntpeters/vim-better-whitespace')
-
   " Highlight when yanking
   call dein#add('machakann/vim-highlightedyank')
-
   " Autocomplete
   call dein#add('Shougo/deoplete.nvim')
   call dein#add('fishbullet/deoplete-ruby')
-
   " Replacing tmux
   call dein#add('radenling/vim-dispatch-neovim')
   call dein#add('BurningEther/nvimux')
