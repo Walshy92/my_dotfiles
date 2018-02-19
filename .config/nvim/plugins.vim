@@ -39,7 +39,7 @@ if dein#load_state(expand('~/.cache/dein'))
   call dein#add('nelstrom/vim-textobj-rubyblock')
   call dein#add('tpope/vim-bundler')
   " RSpec
-  call dein#add('thoughtbot/vim-rspec')
+  call dein#add('janko-m/vim-test')
   " Elxir autocomplete
   call dein#add('slashmili/alchemist.vim')
   " React
