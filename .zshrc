@@ -146,6 +146,12 @@ alias gplo='git pull origin'
 
 alias rgm='rails g migration'
 
+alias paned-ssh="osascript ~/Library/Application\\ Support/iTerm/Scripts/paned-ssh.scpt"
+alias ssh-concord="paned-ssh concord@adm01.concord.tagadab.com concord@app01.concord.tagadab.com concord@app02.concord.tagadab.com"
+alias ssh-bullet="paned-ssh deploy@bullet.tagadab.com deploy@speeding.tagadab.com"
+alias ssh-nephos="paned-ssh deploy@adm01.nephos.tagadab.com deploy@adm02.nephos.tagadab.com deploy@app01.nephos.tagadab.com deploy@app02.nephos.tagadab.com"
+alias ssh-git="paned-ssh root@git.tagadab.com root@95.172.8.85"
+
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
 
 # source for z autocomplete
