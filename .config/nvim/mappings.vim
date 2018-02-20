@@ -113,10 +113,10 @@ map  <Leader>w <Plug>(easymotion-bd-w)
 nmap <Leader>w <Plug>(easymotion-overwin-w)
 
 " RSpec.vim mappings
-map <Leader>t :call RunCurrentSpecFile()<CR>:set wrap<CR>
-map <Leader>s :call RunNearestSpec()<CR>:set wrap<CR>
-map <Leader>l :call RunLastSpec()<CR>:set wrap<CR>
-map <Leader>a :call RunAllSpecs()<CR>:set wrap<CR>
+map <Leader>t :TestFile<CR>:set wrap<CR>
+map <Leader>s :TestNearest<CR>:set wrap<CR>
+map <Leader>l :TestLast<CR>:set wrap<CR>
+map <Leader>a :TestSuite<CR>:set wrap<CR>
 
 " Rails.vim mappings
 nmap <Leader>ae :AE<CR>
@@ -255,7 +255,8 @@ let g:indentLine_char = '|'
 " Run specs in iTerm2
 let g:rspec_runner = "os_x_iterm2"
 
-let g:rspec_command = "Dispatch bin/rspec {spec}"
+" let g:rspec_command = "Dispatch bin/rspec {spec}"
+let test#strategy = "dispatch"
 
 " Neomake Config
 " brew install elixir
@@ -337,9 +338,9 @@ function! SetNumberDisplay()
 endfunction
 
 function! InsertMode()
-  if expand('%t') !~ 'bin/rspec'
+  if (expand('%t') !~ 'spec') && (expand('%t') !~ 'test')
     startinsert
-  elseif expand('%t') =~ 'bin/rspec'
+  elseif (expand('%t') =~ 'spec') || (expand('%t') =~ 'test')
     if winheight('%') < 20
       execute 'resize 20'
     endif
