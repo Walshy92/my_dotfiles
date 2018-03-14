@@ -55,11 +55,6 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_buffers = 0
 let g:airline#extensions#tabline#show_splits = 0
 let g:airline#extensions#tabline#close_symbol = '×'
-let g:airline_section_z = '%{strftime("%a %d %b, %H:%M:%S")}'
-function! UpdateTime(timer)
- call airline#update_statusline()
-endfunction
-let g:airline#extensions#clock#timer = timer_start(1000, 'UpdateTime', {'repeat':-1})
 
 "==============================================================================
 " Easy access to start of the line
@@ -213,15 +208,13 @@ else
   set grepprg=ag\ --nogroup\ --nocolor
 endif
 
-highlight! link deniteMatchedChar Directory
-highlight! link deniteMatchedRange Normal
-
 if executable('rg')
   call denite#custom#var('file_rec', 'command',
     \ ['rg', '--files', '--glob', '!.git'])
   call denite#custom#var('grep', 'command', ['rg', '--threads', '1'])
   call denite#custom#var('grep', 'recursive_opts', [])
   call denite#custom#var('grep', 'final_opts', [])
+  call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
   call denite#custom#var('grep', 'separator', ['--'])
   call denite#custom#var('grep', 'default_opts',
     \ ['--vimgrep', '--no-heading'])
@@ -230,13 +223,14 @@ else
     \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
 endif
 
+call denite#custom#option('default', 'prompt', '>')
 call denite#custom#alias('source', 'file_rec/git', 'file_rec')
 call denite#custom#var('file_rec/git', 'command',
   \ ['git', 'ls-files', '-co', '--exclude-standard'])
 
 " denite file search (c-p uses gitignore, c-o looks at everything)
-map <C-P> :DeniteProjectDir -buffer-name=git file_rec/git<CR>
-map <C-A> :DeniteProjectDir -buffer-name=files file_rec<CR>
+map <C-P> :DeniteProjectDir -buffer-name=git -highlight-matched-char=Directory file_rec/git<CR>
+map <C-A> :DeniteProjectDir -buffer-name=files -highlight-matched-char=Directory  file_rec<CR>
 
 call denite#custom#map('insert', '<Down>', '<denite:move_to_next_line>', 'noremap')
 call denite#custom#map('insert', '<Up>', '<denite:move_to_previous_line>', 'noremap')
@@ -245,8 +239,8 @@ call denite#custom#map('normal', '<Down>', '<denite:move_to_next_line>', 'norema
 call denite#custom#map('normal', '<Up>', '<denite:move_to_previous_line>', 'noremap')
 
 " denite content search
-nnoremap \ :DeniteProjectDir -buffer-name=grep grep:::!<CR>
-nnoremap K :DeniteProjectDir -buffer-name=grep grep:::`expand('<cword>')`<CR>
+nnoremap \ :DeniteProjectDir -buffer-name=grep -highlight-matched-char=Directory grep:::!<CR>
+nnoremap K :DeniteProjectDir -buffer-name=grep -highlight-matched-char=Directory grep:::`expand('<cword>')`<CR>
 
 " Veritcal line config
 let g:indentLine_color_term = 239
