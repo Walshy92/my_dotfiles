@@ -14,39 +14,15 @@ inoremap jj <esc>:w<CR>
 let g:jsx_ext_required = 0
 
 " deoplete.nvim
-" =============================================================================
-if has('nvim')
-  let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_at_startup = 1
 
-  let g:deoplete#omni#input_patterns = {}
-  if !exists('g:deoplete#omni#input_patterns')
-    let g:deoplete#omni#input_patterns = {}
-  endif
-  " let g:deoplete#disable_auto_complete = 1
-  autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+" Let <Tab> also do completion
+inoremap <silent><expr> <Tab>
+\ pumvisible() ? "\<C-n>" :
+\ deoplete#mappings#manual_complete()
 
-  let g:deoplete#omni#functions = {}
-  let g:deoplete#omni#functions.ruby = [
-    \ 'fishbullet#deoplete-ruby',
-  \]
-endif
-
-"use <tab> for completion
-function! TabWrap()
-    if pumvisible()
-        return "\<C-N>"
-    elseif strpart( getline('.'), 0, col('.') - 1 ) =~ '^\s*$'
-        return "\<tab>"
-    elseif &omnifunc !~ ''
-        return "\<C-X>\<C-O>"
-    else
-        return "\<C-N>"
-    endif
-endfunction
-" power tab
-imap <silent><expr><tab> TabWrap()
-" deoplete tab-complete
-inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+" Close the documentation window when completion is done
+autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
 " Airline status bar config
 " =============================================================================
@@ -293,15 +269,6 @@ function! AS_HandleSwapfile (filename, swapname)
 endfunction
 autocmd CursorHold,BufWritePost,BufReadPost,BufLeave *
   \ if isdirectory(expand("<amatch>:h")) | let &swapfile = &modified | endif
-
-augroup checktime
-    au!
-    if !has("gui_running")
-        "silent! necessary otherwise throws errors when using command
-        "line window.
-        autocmd BufEnter,CursorHold,CursorHoldI,CursorMoved,CursorMovedI,FocusGained,BufEnter,FocusLost,WinLeave * checktime
-    endif
-augroup END
 
 " Netrw options
 let g:netrw_liststyle = 1
