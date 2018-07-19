@@ -10,11 +10,22 @@ runtime macros/matchit.vim
 " Escape from insert mode with jj
 inoremap jj <esc>:w<CR>
 
+let g:multi_cursor_exit_from_insert_mode = 0
+
 " Jsx on all js files
 let g:jsx_ext_required = 0
 
 " deoplete.nvim
 let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_smart_case = 1
+
+function! Multiple_cursors_before()
+    let b:deoplete_disable_auto_complete = 1
+endfunction
+
+function! Multiple_cursors_after()
+    let b:deoplete_disable_auto_complete = 0
+endfunction
 
 " Close the documentation window when completion is done
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
@@ -78,7 +89,7 @@ nmap <Leader>L <Plug>(easymotion-overwin-line)
 map  <Leader>w <Plug>(easymotion-bd-w)
 nmap <Leader>w <Plug>(easymotion-overwin-w)
 
-" RSpec.vim mappings
+" Vim.test mappings
 map <Leader>t :TestFile<CR>:set wrap<CR>
 map <Leader>s :TestNearest<CR>:set wrap<CR>
 map <Leader>l :TestLast<CR>:set wrap<CR>
@@ -131,6 +142,9 @@ tnoremap <C-j> <C-\><C-n><C-w>j
 tnoremap <C-k> <C-\><C-n><C-w>k
 tnoremap <C-l> <C-\><C-n><C-w>l
 
+" delete current file
+nnoremap <leader>rm :call delete(expand('%:p')) \| bd!<CR>
+
 " Eval ruby files
 map <leader>r :!ruby %<cr>
 
@@ -146,6 +160,8 @@ nmap <Leader>hr :RemoveHashRocket<CR>
 " Custom commands for navigating with ctags
 map <Leader>[ :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 map <Leader>] :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
+
+map <C-]> g<C-]>
 
 " Copy filepath
 nmap <Leader>fp :let @+=@%<CR>
@@ -218,9 +234,6 @@ let g:indentLine_color_term = 239
 let g:indentLine_char = '|'
 
 " Run specs in iTerm2
-let g:rspec_runner = "os_x_iterm2"
-
-" let g:rspec_command = "Dispatch bin/rspec {spec}"
 let test#strategy = "dispatch"
 
 " Neomake Config

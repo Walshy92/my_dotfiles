@@ -61,7 +61,7 @@ if dein#load_state(expand('~/.cache/dein'))
   call dein#add('machakann/vim-highlightedyank')
   " Autocomplete
   call dein#add('Shougo/deoplete.nvim')
-  " call dein#add('fishbullet/deoplete-ruby')
+  call dein#add('fishbullet/deoplete-ruby')
   " Replacing tmux
   call dein#add('radenling/vim-dispatch-neovim')
   call dein#add('BurningEther/nvimux')
