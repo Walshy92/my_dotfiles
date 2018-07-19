@@ -9,48 +9,14 @@ export ZSH=$HOME/.oh-my-zsh
 
 ZSH_THEME="af-magic"
 
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
-
-# Uncomment the following line to use hyphen-insensitive completion. Case
-# sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
-
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
-
-# Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
-
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
-
 # Uncomment the following line to disable auto-setting terminal title.
 DISABLE_AUTO_TITLE="true"
 
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
 # Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
+COMPLETION_WAITING_DOTS="true"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
 plugins=(git rails ruby brew npm zsh-syntax-highlighting zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
@@ -61,13 +27,10 @@ source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 setopt correct
 
 # User configuration
-
 export EDITOR=/usr/local/bin/nvim
 
 export TWITTER_OAUTH_ID="FpdTAUQHQAUdlhC58DjKBpnVP"
 export TWITTER_OAUTH_SECRET="7Yr6OansByoOeno8M08I6eLst6HfRCUPZ59pkOD8i3bQr6iYzD"
-
-# export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -104,7 +67,7 @@ function mygr8() {
 }
 
 function rollback() {
-  if [ $1 != "" ]
+  if [ !($1 = "") ]
   then
     bin/rake db:rollback STEP=$1
     bin/rake db:rollback STEP=$1 RAILS_ENV=test
@@ -127,6 +90,45 @@ function mcd() { # creates a directory and places you in it
   cd $1
 }
 
+function update-master() {
+  if [ $(git rev-parse --abbrev-ref HEAD) = "master" ]
+  then
+    git pull
+  else
+    git fetch origin master:master
+  fi
+  git fetch --all --prune
+}
+
+function start-branch() {
+  git stash save tempforbranch
+  update-master && git checkout master
+  git checkout -b $1
+  if [[ ! -z $(git stash list | grep tempforbranch | grep -oE "(\d+)") ]]
+  then
+    git stash apply stash@$(git stash list | grep tempforbranch | grep -oE "\{(\d+)\}")
+    git stash drop stash@$(git stash list | grep tempforbranch | grep -oE "\{(\d+)\}")
+  fi
+  bundle
+  clear
+}
+
+function finish-branch() {
+  BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+  if [ "${BRANCH}" = "master" ]
+  then
+    echo "ERROR: cannot finish master"
+    return 1
+  fi
+
+  git push --set-upstream origin "${BRANCH}" && {
+    bundle exec cap production gitlab:release
+    update-master
+    git checkout master
+    git branch -D "${BRANCH}"
+  }
+}
+
 alias mydotfiles='git --git-dir=$HOME/.my-dotfiles/ --work-tree=$HOME'
 
 alias vim=nvim
@@ -143,14 +145,16 @@ alias ga='git add'
 alias gd='git diff -w --patience'
 alias gpo='git push origin'
 alias gplo='git pull origin'
-
-alias rgm='rails g migration'
+alias gh='git hist'
+alias gsh='git show'
 
 alias paned-ssh="osascript ~/Library/Application\\ Support/iTerm/Scripts/paned-ssh.scpt"
 alias ssh-concord="paned-ssh concord@adm01.concord.tagadab.com concord@app01.concord.tagadab.com concord@app02.concord.tagadab.com"
 alias ssh-bullet="paned-ssh deploy@bullet.tagadab.com deploy@speeding.tagadab.com"
 alias ssh-nephos="paned-ssh deploy@adm01.nephos.tagadab.com deploy@adm02.nephos.tagadab.com deploy@app01.nephos.tagadab.com deploy@app02.nephos.tagadab.com"
 alias ssh-git="paned-ssh root@git.tagadab.com root@95.172.8.85"
+
+alias mdf='mydotfiles'
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
 
@@ -160,9 +164,11 @@ alias ssh-git="paned-ssh root@git.tagadab.com root@95.172.8.85"
 # use vim as the default pager for man pages
 export MANPAGER="col -b | vim -c 'set ft=man ts=8 nomod nolist nonu' -c 'nnoremap i <nop>' -"
 
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 fpath=(~/.zsh/Completion $fpath)
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 unalias rg
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
