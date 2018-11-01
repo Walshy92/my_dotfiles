@@ -23,6 +23,7 @@ mydotfiles push
 ## Replication
 ```bash
 git clone --separate-git-dir=$HOME/.my-dotfiles https://github.com/hvenables/my_dotfiles.git
+git clone git@github.com:hvenables/my-dotfiles.git my-dotfiles-tmp
 rsync --recursive --verbose --exclude '.git' my-dotfiles-tmp/ $HOME/
 rm --recursive my-dotfiles-tmp
 ```
